@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: Hành trình Rừng Việt Nam</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2d6a4f;
+            --light-green: #d8f3dc;
+            --warning-color: #e76f51;
+            --text-color: #1b4332;
+            --bg-color: #f7fff7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh; /* Khóa chiều cao bằng màn hình, không cuộn */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Section */
+        header {
+            flex: 0 0 10%; /* Chiếm 10% chiều cao */
+            background-color: var(--primary-green);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Main Layout: 3 Columns */
+        .container {
+            flex: 1; /* Chiếm phần còn lại */
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+            gap: 10px;
+            height: 90%;
+        }
+
+        .section {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-top: 5px solid var(--primary-green);
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .chart-container {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            min-height: 0; /* Quan trọng cho Flexbox */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            text-align: justify;
+            margin-top: 10px;
+            background: var(--light-green);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        .highlight-warn {
+            font-weight: bold;
+            color: var(--warning-color);
+        }
+
+        .image-container {
+            width: 100%;
+            height: 220px; /* Tăng chiều cao ảnh */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Specific Styles for Section 3 (Comparison) */
+        .comparison-bars {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .bar-group label {
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .progress-bg {
+            background: #e0e0e0;
+            border-radius: 20px;
+            height: 25px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 20px;
+            text-align: right;
+            padding-right: 10px;
+            color: white;
+            line-height: 25px;
+            font-size: 0.8rem;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Responsive for very small screens only */
+        @media (max-width: 768px) {
+            body { overflow: auto; height: auto; }
+            .container { flex-direction: column; height: auto; }
+            .section { min-height: 400px; }
+            .image-container { height: 120px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>Hành Trình Rừng Việt Nam (1943 - 2021)</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="section">
+            <div class="section-title">1. Giai Đoạn Khó Khăn<br><small>(1943 - 1983)</small></div>
+            
+            <div class="image-container">
+                <img src="1.jpg">
+            </div>
+
+            <div class="content-text">
+                <p>Giai đoạn này chứng kiến sự sụt giảm nghiêm trọng diện tích rừng:</p>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Năm 1943: <span class="highlight">14,3 triệu ha</span> (Che phủ 43,0%).</li>
+                    <li>Năm 1983: Giảm còn <span class="highlight-warn">7,2 triệu ha</span> (Che phủ 22,0%).</li>
+                </ul>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="chartDecline"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">2. Phục Hồi và Phát Triển<br><small>(Đến năm 2021)</small></div>
+            
+            <div class="image-container">
+                <img src="2.jpg">
+            </div>
+
+            <div class="content-text">
+                <p>Sự nỗ lực trồng và bảo vệ rừng đã mang lại kết quả lớn:</p>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Tổng diện tích 2021: <span class="highlight">14,7 triệu ha</span>.</li>
+                    <li>Trong đó: <span class="highlight">10,2 triệu ha</span> rừng tự nhiên và <span class="highlight">4,5 triệu ha</span> rừng trồng.</li>
+                </ul>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="chartRecovery"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">3. Thế Mạnh Quốc Tế<br><small>(Tỉ lệ che phủ vượt trội)</small></div>
+            
+            <div class="image-container">
+                <img src="3.jpg">
+            </div>
+
+            <div class="content-text">
+                <p>Việt Nam có tỉ lệ che phủ rừng vượt trội so với mức trung bình của thế giới.</p>
+            </div>
+
+            <div class="chart-container">
+                <div class="comparison-bars">
+                    <div class="bar-group">
+                        <label>Việt Nam (2021) <span>42.0%</span></label>
+                        <div class="progress-bg">
+                            <div class="progress-fill" style="width: 42%; background-color: var(--primary-green);">42%</div>
+                        </div>
+                    </div>
+                    <div class="bar-group">
+                        <label>Trung bình Thế giới <span>31.0%</span></label>
+                        <div class="progress-bg">
+                            <div class="progress-fill" style="width: 31%; background-color: #95a5a6;">31%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Cấu hình chung cho Font
+        Chart.defaults.font.family = "'Roboto', sans-serif";
+        Chart.defaults.color = '#1b4332';
+
+        // 1. Biểu đồ Cột: Suy Thoái
+        const ctx1 = document.getElementById('chartDecline').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['1943', '1983'],
+                datasets: [{
+                    label: 'Diện tích rừng (Triệu ha)',
+                    data: [14.3, 7.2],
+                    backgroundColor: ['#2d6a4f', '#e76f51'],
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Sụt giảm diện tích (Triệu ha)' }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // 2. Biểu đồ Tròn (Doughnut): Phục Hồi 2021
+        const ctx2 = document.getElementById('chartRecovery').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Rừng Tự Nhiên', 'Rừng Trồng'],
+                datasets: [{
+                    data: [10.2, 4.5],
+                    backgroundColor: ['#2d6a4f', '#52b788'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    title: { display: true, text: 'Cơ cấu rừng năm 2021 (Triệu ha)' }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
