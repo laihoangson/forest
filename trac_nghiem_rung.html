@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc Nghiệm Rừng Và Lâm Nghiệp Việt Nam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('./forest.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(45, 106, 79, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sparkle-title {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: titleSparkle 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleSparkle {
+            0%, 100% {
+                text-shadow: 0 0 10px #52b788, 0 0 20px #d8f3dc, 0 0 30px #ffffff;
+                transform: scale(1);
+            }
+            50% {
+                text-shadow: 0 0 20px #52b788, 0 0 40px #d8f3dc, 0 0 60px #ffffff;
+                transform: scale(1.05);
+            }
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #d8f3dc;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            color: #1b4332;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 150px);
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            background-color: #40916c;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #d8f3dc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #2d6a4f;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .question-container {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f1f8e9;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question-number {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2d6a4f;
+            margin-bottom: 8px;
+        }
+        
+        .question-text {
+            font-size: 1.15rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        
+        .option {
+            background-color: white;
+            border: 2px solid #95d5b2;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .option:hover {
+            background-color: #d8f3dc;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option.selected {
+            background-color: #40916c;
+            color: white;
+            border-color: #2d6a4f;
+        }
+        
+        .option.correct {
+            background-color: #52b788;
+            color: white;
+            border-color: #2d6a4f;
+        }
+        
+        .option.incorrect {
+            background-color: #e76f51;
+            color: white;
+            border-color: #d62828;
+        }
+        
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .feedback {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.95rem;
+        }
+        
+        .feedback.correct {
+            background-color: #d8f3dc;
+            color: #2d6a4f;
+            border-left: 4px solid #2d6a4f;
+        }
+        
+        .feedback.incorrect {
+            background-color: #ffe5d9;
+            color: #e76f51;
+            border-left: 4px solid #e76f51;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        button {
+            background-color: #2d6a4f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background-color: #1b4332;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result-container {
+            text-align: center;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .result-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #2d6a4f;
+        }
+        
+        .score {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #2d6a4f;
+            margin: 15px 0;
+        }
+        
+        .result-message {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .restart-btn {
+            background-color: #e76f51;
+            margin-top: 15px;
+        }
+        
+        .restart-btn:hover {
+            background-color: #d62828;
+        }
+        
+        .sparkle-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 6rem;
+            animation: sparkle 3s ease-out forwards;
+        }
+        
+        @keyframes sparkle {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            40% {
+                transform: scale(1) rotate(10deg);
+            }
+            60% {
+                transform: scale(1) rotate(-10deg);
+            }
+            80% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5);
+            }
+        }
+        
+        .tree-sparkle {
+            color: #52b788;
+            text-shadow: 0 0 20px #d8f3dc, 0 0 30px #ffffff;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 12px;
+                margin-bottom: 10px;
+            }
+            
+            .sparkle-title {
+                font-size: 1.7rem;
+            }
+            
+            .container {
+                padding: 15px;
+                max-height: calc(100vh - 130px);
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .option {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .sparkle-effect {
+                font-size: 5rem;
+            }
+        }
+        
+        @media (max-height: 700px) {
+            .header-container {
+                padding: 10px;
+            }
+            
+            .sparkle-title {
+                font-size: 1.5rem;
+                margin-bottom: 5px;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .container {
+                max-height: calc(100vh - 120px);
+                padding: 15px;
+            }
+            
+            .question-container {
+                padding: 12px;
+            }
+            
+            .question-text {
+                font-size: 1.05rem;
+                margin-bottom: 12px;
+            }
+            
+            .options-container {
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle-effect" id="sparkle-effect">
+        <div class="tree-sparkle">🌳</div>
+    </div>
+    
+    <div class="header-container">
+        <h1 class="sparkle-title">🌳 Trắc Nghiệm Về Rừng 🌳</h1>
+        <p class="subtitle">Kiểm tra kiến thức về rừng và lâm nghiệp Việt Nam</p>
+    </div>
+    
+    <div class="container">
+        <div class="game-info">
+            <div class="score-display">Điểm: <span id="score">0</span>/5</div>
+            <div class="question-count">Câu: <span id="current-question">1</span>/5</div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="game-content" id="game-content">
+            <div class="question-container">
+                <div class="question-number">Câu <span id="question-number">1</span>:</div>
+                <div class="question-text" id="question-text"></div>
+                
+                <div class="options-container" id="options-container"></div>
+                
+                <div class="feedback" id="feedback"></div>
+            </div>
+            
+            <div class="navigation">
+                <button id="prev-btn" disabled>← Câu trước</button>
+                <button id="next-btn">Câu tiếp →</button>
+                <button id="submit-btn" style="display: none;">Xem kết quả</button>
+            </div>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <h2 class="result-title">Kết quả của bạn</h2>
+            <div class="score" id="final-score">0/5</div>
+            <p class="result-message" id="result-message"></p>
+            <button class="restart-btn" id="restart-btn">Chơi lại</button>
+        </div>
+    </div>
+
+    <script>
+        // Dữ liệu câu hỏi
+        const questions = [
+            {
+                question: "Đặc điểm khí hậu nào của nước ta tạo điều kiện thuận lợi cho sự phát triển của hệ sinh thái rừng nhiệt đới đặc trưng?",
+                options: [
+                    "Khí hậu ôn đới hải dương.",
+                    "Khí hậu cận nhiệt khô, ít mưa.",
+                    "Khí hậu nhiệt đới ẩm gió mùa.",
+                    "Khí hậu hàn đới lục địa."
+                ],
+                correctAnswer: 2,
+                explanation: "Khí hậu nhiệt đới ẩm gió mùa với nhiệt độ cao và độ ẩm lớn tạo điều kiện thuận lợi cho sự phát triển của hệ sinh thái rừng nhiệt đới đặc trưng ở nước ta."
+            },
+            {
+                question: "Theo nội dung bài đọc, một trong những hạn chế trong công tác bảo vệ rừng ở nước ta hiện nay là gì?",
+                options: [
+                    "Thiếu các chính sách hỗ trợ từ nhà nước.",
+                    "Người dân không có kinh nghiệm bảo vệ rừng.",
+                    "Lực lượng quản lí còn ít, máy móc thiết bị chậm cải tiến.",
+                    "Diện tích rừng đang liên tục suy giảm nghiêm trọng."
+                ],
+                correctAnswer: 2,
+                explanation: "Theo tài liệu, công tác bảo vệ rừng đang gặp khó khăn do lực lượng quản lí còn ít, máy móc thiết bị trong hoạt động khai thác, chế biến gỗ và lâm sản chậm cải tiến."
+            },
+            {
+                question: "Hoạt động lâm nghiệp ở nước ta bao gồm những nhóm hoạt động chính nào?",
+                options: [
+                    "Chỉ trồng rừng và bảo vệ rừng.",
+                    "Trồng rừng, đánh bắt và nuôi trồng thủy sản.",
+                    "Lâm sinh (trồng, bảo vệ rừng), khai thác và chế biến gỗ, lâm sản.",
+                    "Chỉ khai thác và chế biến các sản phẩm từ gỗ."
+                ],
+                correctAnswer: 2,
+                explanation: "Hoạt động lâm nghiệp ở nước ta khá đa dạng, gồm lâm sinh (trồng rừng, khoanh nuôi và bảo vệ rừng); khai thác, chế biến gỗ và lâm sản."
+            },
+            {
+                question: "Mặc dù diện tích rừng đang trong giai đoạn phục hồi và phát triển, mỗi năm nước ta vẫn phải đối mặt với thách thức nào sau đây?",
+                options: [
+                    "Nạn phá rừng để xây dựng khu công nghiệp.",
+                    "Tình trạng hàng nghìn ha rừng bị cháy hoặc bị khai thác trái phép.",
+                    "Không có thị trường tiêu thụ cho các sản phẩm lâm nghiệp.",
+                    "Sự phản đối của người dân đối với việc trồng rừng."
+                ],
+                correctAnswer: 1,
+                explanation: "Theo tài liệu, mỗi năm nước ta vẫn có hàng nghìn ha rừng bị cháy hoặc bị khai thác trái phép, đây là thách thức lớn đối với công tác bảo vệ rừng."
+            },
+            {
+                question: "Theo Luật Lâm nghiệp, chính sách 'đóng cửa rừng tự nhiên' được hiểu là gì?",
+                options: [
+                    "Chuyển đổi toàn bộ rừng tự nhiên thành khu du lịch.",
+                    "Cấm người dân vào rừng để thu hái lâm sản phụ.",
+                    "Xây dựng hàng rào kiên cố xung quanh tất cả các khu rừng.",
+                    "Dừng khai thác gỗ trong rừng tự nhiên trong một khoảng thời gian nhất định."
+                ],
+                correctAnswer: 3,
+                explanation: "Chính sách 'đóng cửa rừng tự nhiên' là dừng khai thác gỗ trong rừng tự nhiên trong một khoảng thời gian nhất định để rừng có thời gian phục hồi."
+            }
+        ];
+
+        // Biến toàn cục
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let score = 0;
+        let quizCompleted = false;
+        let questionAnswered = false;
+
+        // DOM Elements
+        const gameContent = document.getElementById('game-content');
+        const resultContainer = document.getElementById('result-container');
+        const questionNumberElement = document.getElementById('question-number');
+        const questionTextElement = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const prevButton = document.getElementById('prev-btn');
+        const nextButton = document.getElementById('next-btn');
+        const submitButton = document.getElementById('submit-btn');
+        const scoreElement = document.getElementById('score');
+        const currentQuestionElement = document.getElementById('current-question');
+        const finalScoreElement = document.getElementById('final-score');
+        const resultMessageElement = document.getElementById('result-message');
+        const restartButton = document.getElementById('restart-btn');
+        const progressBar = document.getElementById('progress');
+        const feedbackElement = document.getElementById('feedback');
+        const sparkleEffect = document.getElementById('sparkle-effect');
+
+        // Khởi tạo game
+        function initGame() {
+            currentQuestionIndex = 0;
+            userAnswers.fill(null);
+            score = 0;
+            quizCompleted = false;
+            questionAnswered = false;
+            
+            gameContent.style.display = 'block';
+            resultContainer.style.display = 'none';
+            
+            updateScore();
+            showQuestion();
+            updateProgressBar();
+        }
+
+        // Hiển thị câu hỏi
+        function showQuestion() {
+            const question = questions[currentQuestionIndex];
+            
+            questionNumberElement.textContent = currentQuestionIndex + 1;
+            questionTextElement.textContent = question.question;
+            currentQuestionElement.textContent = currentQuestionIndex + 1;
+            
+            // Tạo các lựa chọn
+            optionsContainer.innerHTML = '';
+            questionAnswered = userAnswers[currentQuestionIndex] !== null;
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                
+                // Kiểm tra trạng thái của lựa chọn
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionElement.classList.add('selected');
+                    
+                    // Hiển thị đúng/sai nếu đã chọn
+                    if (index === question.correctAnswer) {
+                        optionElement.classList.add('correct');
+                    } else {
+                        optionElement.classList.add('incorrect');
+                    }
+                }
+                
+                // Vô hiệu hóa lựa chọn nếu đã trả lời
+                if (questionAnswered) {
+                    optionElement.classList.add('disabled');
+                    
+                    // Hiển thị đáp án đúng
+                    if (index === question.correctAnswer && userAnswers[currentQuestionIndex] !== index) {
+                        optionElement.classList.add('correct');
+                    }
+                }
+                
+                optionElement.textContent = option;
+                
+                // Chỉ cho phép chọn nếu chưa trả lời
+                if (!questionAnswered) {
+                    optionElement.addEventListener('click', () => selectOption(index));
+                }
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Hiển thị phản hồi nếu đã trả lời
+            if (questionAnswered) {
+                const isCorrect = userAnswers[currentQuestionIndex] === question.correctAnswer;
+                
+                if (isCorrect) {
+                    feedbackElement.textContent = "✅ Chính xác! " + question.explanation;
+                    feedbackElement.className = 'feedback correct';
+                } else {
+                    feedbackElement.textContent = "❌ Chưa đúng! " + question.explanation;
+                    feedbackElement.className = 'feedback incorrect';
+                }
+                feedbackElement.style.display = 'block';
+            } else {
+                feedbackElement.style.display = 'none';
+            }
+            
+            // Ẩn/hiện nút điều hướng
+            prevButton.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextButton.style.display = 'none';
+                submitButton.style.display = 'block';
+            } else {
+                nextButton.style.display = 'block';
+                submitButton.style.display = 'none';
+            }
+        }
+
+        // Chọn một lựa chọn
+        function selectOption(optionIndex) {
+            if (quizCompleted || questionAnswered) return;
+            
+            userAnswers[currentQuestionIndex] = optionIndex;
+            questionAnswered = true;
+            
+            // Cập nhật điểm số và hiệu ứng
+            const question = questions[currentQuestionIndex];
+            if (optionIndex === question.correctAnswer) {
+                score += 1;
+                updateScore();
+                showSparkleEffect();
+            }
+            
+            showQuestion();
+        }
+
+        // Hiệu ứng lấp lánh khi trả lời đúng
+        function showSparkleEffect() {
+            sparkleEffect.style.display = 'flex';
+            
+            setTimeout(() => {
+                sparkleEffect.style.display = 'none';
+            }, 3000);
+        }
+
+        // Cập nhật điểm số
+        function updateScore() {
+            scoreElement.textContent = score;
+        }
+
+        // Cập nhật thanh tiến trình
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Chuyển đến câu hỏi tiếp theo
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                questionAnswered = userAnswers[currentQuestionIndex] !== null;
+                showQuestion();
+                updateProgressBar();
+            }
+        }
+
+        // Quay lại câu hỏi trước
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                questionAnswered = userAnswers[currentQuestionIndex] !== null;
+                showQuestion();
+                updateProgressBar();
+            }
+        }
+
+        // Nộp bài và hiển thị kết quả
+        function submitQuiz() {
+            quizCompleted = true;
+            gameContent.style.display = 'none';
+            resultContainer.style.display = 'flex';
+            
+            finalScoreElement.textContent = `${score}/${questions.length}`;
+            
+            // Hiển thị thông báo kết quả
+            if (score === questions.length) {
+                resultMessageElement.textContent = "🎉 Xuất sắc! Bạn thực sự hiểu biết về lâm nghiệp Việt Nam! 🌳✨";
+            } else if (score >= questions.length * 0.7) {
+                resultMessageElement.textContent = "👍 Rất tốt! Kiến thức của bạn về lâm nghiệp khá vững! 🌿";
+            } else if (score >= questions.length * 0.5) {
+                resultMessageElement.textContent = "👌 Khá tốt! Bạn có hiểu biết cơ bản về lâm nghiệp Việt Nam!";
+            } else {
+                resultMessageElement.textContent = "📚 Hãy tiếp tục tìm hiểu thêm về lâm nghiệp Việt Nam nhé!";
+            }
+        }
+
+        // Gán sự kiện cho các nút
+        nextButton.addEventListener('click', nextQuestion);
+        prevButton.addEventListener('click', prevQuestion);
+        submitButton.addEventListener('click', submitQuiz);
+        restartButton.addEventListener('click', initGame);
+
+        // Khởi động game
+        initGame();
+    </script>
+</body>
+</html>
