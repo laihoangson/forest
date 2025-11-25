@@ -21,28 +21,40 @@
             color: #fff;
             min-height: 100vh;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: linear-gradient(to bottom, #f5f5dc, #e8e4c9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #1b4332;
+        }
+
+        .start-screen {
+            padding: 60px 40px;
+            text-align: center;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
+            justify-content: center;
+            min-height: 500px;
+            background: linear-gradient(to bottom, rgba(245, 245, 220, 0.9), rgba(232, 228, 201, 0.9));
         }
-        
-        .header-container {
-            width: 100%;
-            max-width: 900px;
-            text-align: center;
-            margin-bottom: 15px;
-            padding: 15px;
-            background: rgba(45, 106, 79, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .sparkle-title {
-            font-size: 2rem;
-            margin-bottom: 8px;
-            color: #fff;
+
+        .start-title {
+            font-size: 3rem;
+            color: #1b4332;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             animation: titleSparkle 3s ease-in-out infinite;
+            font-weight: bold;
         }
         
         @keyframes titleSparkle {
@@ -55,638 +67,845 @@
                 transform: scale(1.05);
             }
         }
-        
-        .subtitle {
-            font-size: 1rem;
-            color: #d8f3dc;
+
+        .start-subtitle {
+            font-size: 1.8rem;
+            color: #2d6a4f;
+            margin-bottom: 30px;
+            font-weight: 600;
         }
-        
-        .container {
-            max-width: 900px;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            padding: 20px;
+
+        .start-description {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.7;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+            color: white;
+            border: none;
+            padding: 18px 55px;
+            font-size: 1.4rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid #1b4332;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(45, 106, 79, 0.5);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+            color: #d8f3dc;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 3px solid #1b4332;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: titleSparkle 3s ease-in-out infinite;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .question-container {
+            padding: 0 30px 30px;
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .question-box {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #1b4332;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-title {
+            font-size: 1.4rem;
+            font-weight: bold;
             color: #1b4332;
-            flex: 1;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options {
             display: flex;
             flex-direction: column;
-            max-height: calc(100vh - 150px);
+            gap: 12px;
         }
-        
-        .game-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            background-color: #40916c;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background-color: #d8f3dc;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            background-color: #2d6a4f;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        
-        .question-container {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            padding: 15px;
-            background-color: #f1f8e9;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .question-number {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #2d6a4f;
-            margin-bottom: 8px;
-        }
-        
-        .question-text {
-            font-size: 1.15rem;
-            line-height: 1.4;
-            margin-bottom: 15px;
-        }
-        
-        .options-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 8px;
-        }
-        
+
         .option {
-            background-color: white;
-            border: 2px solid #95d5b2;
+            background: white;
+            padding: 18px 22px;
             border-radius: 8px;
-            padding: 12px;
+            border: 2px solid #1b4332;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 500;
         }
-        
+
         .option:hover {
-            background-color: #d8f3dc;
-            transform: translateY(-2px);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            background: #e9ecef;
+            transform: translateX(5px);
         }
-        
+
         .option.selected {
-            background-color: #40916c;
-            color: white;
+            background: #e7f3ff;
             border-color: #2d6a4f;
         }
-        
+
         .option.correct {
-            background-color: #52b788;
-            color: white;
-            border-color: #2d6a4f;
+            background: #d4edda;
+            border-color: #52b788;
+            animation: correctPulse 0.5s ease;
+            color: #155724;
         }
-        
-        .option.incorrect {
-            background-color: #e76f51;
-            color: white;
-            border-color: #d62828;
+
+        .option.wrong {
+            background: #f8d7da;
+            border-color: #e76f51;
+            animation: shake 0.5s ease;
+            color: #721c24;
         }
-        
-        .option.disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
-        
-        .feedback {
-            margin-top: 12px;
-            padding: 12px;
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .explanation {
+            background: #e7f3ff;
+            padding: 18px;
+            margin-top: 15px;
             border-radius: 8px;
-            display: none;
-            font-size: 0.95rem;
-        }
-        
-        .feedback.correct {
-            background-color: #d8f3dc;
-            color: #2d6a4f;
             border-left: 4px solid #2d6a4f;
+            display: none;
+            font-size: 1.1rem;
+            color: #1b4332;
+            line-height: 1.5;
         }
-        
-        .feedback.incorrect {
-            background-color: #ffe5d9;
-            color: #e76f51;
-            border-left: 4px solid #e76f51;
+
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
         }
-        
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tree-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 150px;
+            z-index: 1000;
+            display: none;
+            animation: treeAppear 1s ease;
+        }
+
+        @keyframes treeAppear {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) scale(1.2) rotate(10deg); }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        }
+
+        .score-box {
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+            color: #d8f3dc;
+            padding: 18px;
+            margin: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: 2px solid #1b4332;
+        }
+
+        .timer-box {
+            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+            color: white;
+            padding: 12px 18px;
+            margin: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 2px solid #52b788;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            display: none;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            color: #d8f3dc;
+            font-weight: bold;
+        }
+
+        /* Nút pause */
+        .pause-btn {
+            background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #1b4332;
+            font-weight: bold;
+        }
+
+        .pause-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(255, 165, 0, 0.4);
+        }
+
+        .pause-btn.paused {
+            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+        }
+
         .navigation {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            padding: 0 30px 30px;
         }
-        
-        button {
-            background-color: #2d6a4f;
+
+        .nav-btn {
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-size: 0.95rem;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 2px solid #1b4332;
             font-weight: bold;
         }
-        
-        button:hover {
-            background-color: #1b4332;
-            transform: translateY(-2px);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(45, 106, 79, 0.4);
         }
-        
-        button:disabled {
-            background-color: #95a5a6;
+
+        .nav-btn:disabled {
+            background: #6c757d;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
-        
-        .result-container {
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 12px;
+            border-radius: 6px;
+            margin: 20px;
+            overflow: hidden;
+            border: 1px solid #1b4332;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2d6a4f 0%, #40916c 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .question-counter {
             text-align: center;
-            padding: 20px;
+            font-size: 1.2rem;
+            color: #2d6a4f;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .completion-message {
+            text-align: center;
+            padding: 50px 30px;
             display: none;
+            background: linear-gradient(to bottom, rgba(245, 245, 220, 0.95), rgba(232, 228, 201, 0.95));
+            min-height: 500px;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%;
         }
-        
-        .result-title {
-            font-size: 1.6rem;
-            margin-bottom: 15px;
+
+        .completion-message.show {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .completion-message h2 {
             color: #2d6a4f;
+            margin-bottom: 30px;
+            font-size: 2.8rem;
+            animation: blink 2s infinite;
         }
-        
-        .score {
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .final-score {
             font-size: 2.2rem;
             font-weight: bold;
-            color: #2d6a4f;
-            margin: 15px 0;
+            color: #1b4332;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: 2px solid #52b788;
         }
-        
-        .result-message {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
+
+        .message {
+            font-size: 1.4rem;
+            margin: 30px 0;
+            line-height: 1.6;
+            max-width: 600px;
+            color: #333;
+            font-weight: 500;
         }
-        
+
         .restart-btn {
-            background-color: #e76f51;
-            margin-top: 15px;
+            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+            color: white;
+            border: none;
+            padding: 16px 45px;
+            font-size: 1.3rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid #1b4332;
+            font-weight: bold;
         }
-        
+
         .restart-btn:hover {
-            background-color: #d62828;
-        }
-        
-        .sparkle-effect {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            font-size: 6rem;
-            animation: sparkle 3s ease-out forwards;
-        }
-        
-        @keyframes sparkle {
-            0% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            20% {
-                opacity: 1;
-                transform: scale(1.2);
-            }
-            40% {
-                transform: scale(1) rotate(10deg);
-            }
-            60% {
-                transform: scale(1) rotate(-10deg);
-            }
-            80% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(1.5);
-            }
-        }
-        
-        .tree-sparkle {
-            color: #52b788;
-            text-shadow: 0 0 20px #d8f3dc, 0 0 30px #ffffff;
-        }
-        
-        @media (max-width: 768px) {
-            .header-container {
-                padding: 12px;
-                margin-bottom: 10px;
-            }
-            
-            .sparkle-title {
-                font-size: 1.7rem;
-            }
-            
-            .container {
-                padding: 15px;
-                max-height: calc(100vh - 130px);
-            }
-            
-            .question-text {
-                font-size: 1.1rem;
-            }
-            
-            .option {
-                padding: 10px;
-                font-size: 0.9rem;
-            }
-            
-            .sparkle-effect {
-                font-size: 5rem;
-            }
-        }
-        
-        @media (max-height: 700px) {
-            .header-container {
-                padding: 10px;
-            }
-            
-            .sparkle-title {
-                font-size: 1.5rem;
-                margin-bottom: 5px;
-            }
-            
-            .subtitle {
-                font-size: 0.9rem;
-            }
-            
-            .container {
-                max-height: calc(100vh - 120px);
-                padding: 15px;
-            }
-            
-            .question-container {
-                padding: 12px;
-            }
-            
-            .question-text {
-                font-size: 1.05rem;
-                margin-bottom: 12px;
-            }
-            
-            .options-container {
-                gap: 6px;
-            }
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(27, 67, 50, 0.4);
         }
     </style>
 </head>
 <body>
-    <audio id="correct-sound" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/257/257-preview.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="incorrect-sound" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/258/258-preview.mp3" type="audio/mpeg">
-    </audio>
-    
-    <div class="sparkle-effect" id="sparkle-effect">
-        <div class="tree-sparkle">🌳</div>
-    </div>
-    
-    <div class="header-container">
-        <h1 class="sparkle-title">Hành Trình Xanh</h1>
-        <p class="subtitle">Trắc nghiệm kiến thức về rừng và lâm nghiệp Việt Nam</p>
-    </div>
-    
-    <div class="container">
-        <div class="game-info">
-            <div class="score-display">Điểm: <span id="score">0</span>/4</div>
-            <div class="question-count">Câu: <span id="current-question">1</span>/4</div>
-        </div>
-        
-        <div class="progress-bar">
-            <div class="progress" id="progress"></div>
-        </div>
-        
-        <div class="game-content" id="game-content">
-            <div class="question-container">
-                <div class="question-number">Câu <span id="question-number">1</span>:</div>
-                <div class="question-text" id="question-text"></div>
-                
-                <div class="options-container" id="options-container"></div>
-                
-                <div class="feedback" id="feedback"></div>
-            </div>
-            
-            <div class="navigation">
-                <button id="prev-btn" disabled>← Câu trước</button>
-                <button id="next-btn">Câu tiếp →</button>
-                <button id="submit-btn" style="display: none;">Xem kết quả</button>
-            </div>
-        </div>
-        
-        <div class="result-container" id="result-container">
-            <h2 class="result-title">Kết quả của bạn</h2>
-            <div class="score" id="final-score">0/4</div>
-            <p class="result-message" id="result-message"></p>
-            <button class="restart-btn" id="restart-btn">Chơi lại</button>
+    <!-- Trang mở đầu -->
+    <div class="container" id="startScreen">
+        <div class="start-screen">
+            <h1 class="start-title">🌳 HÀNH TRÌNH XANH 🌳</h1>
+            <p class="start-subtitle">Trắc nghiệm kiến thức về rừng và lâm nghiệp Việt Nam</p>
+            <p class="start-description">Khám phá kiến thức về rừng và lâm nghiệp Việt Nam qua bài trắc nghiệm thú vị này. Hãy cùng tìm hiểu và bảo vệ màu xanh của Trái Đất!</p>
+            <button class="start-btn" onclick="startQuiz()">Bắt Đầu Hành Trình</button>
         </div>
     </div>
 
+    <!-- Trang trắc nghiệm -->
+    <div class="container" id="quizContainer" style="display: none;">
+        <div class="header">
+            <h1>🌳 HÀNH TRÌNH XANH 🌳</h1>
+            <p>Trắc nghiệm kiến thức về rừng và lâm nghiệp Việt Nam</p>
+        </div>
+
+        <div class="timer-box" id="timerBox">
+            <span>⏱️ Thời gian còn lại:</span>
+            <div class="timer" id="timer">20</div>
+            <span>giây</span>
+            <!-- Nút pause -->
+            <button class="pause-btn" id="pauseBtn" onclick="toggleTimer()">⏸️ Tạm dừng</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div class="score-box" id="scoreBox">
+            Điểm: <span id="score">0</span>/4
+        </div>
+
+        <div class="question-counter" id="questionCounter">Câu 1/4</div>
+
+        <div class="question-container active" id="question-0">
+            <div class="question-box">
+                <div class="question-title">Câu 1. Yếu tố tự nhiên quan trọng nhất giúp nước ta có điều kiện thuận lợi phát triển lâm nghiệp là:</div>
+                <div class="options">
+                    <div class="option" onclick="selectAnswer(0, 0)">A. Địa hình bằng phẳng thuận lợi trồng rừng</div>
+                    <div class="option" onclick="selectAnswer(0, 1)">B. Khí hậu nhiệt đới ẩm mưa nhiều, nền nhiệt cao.</div>
+                    <div class="option" onclick="selectAnswer(0, 2)">C. Đất phù sa màu mỡ</div>
+                    <div class="option" onclick="selectAnswer(0, 3)">D. Mạng lưới sông ngòi dày đặc</div>
+                </div>
+                <div class="explanation" id="explanation-0">
+                    <strong>✅ Giải thích:</strong> Khí hậu nhiệt đới ẩm gió mùa với nhiệt độ cao, lượng mưa lớn, độ ẩm dồi dào tạo điều kiện thuận lợi nhất cho sinh trưởng của cây rừng, giúp rừng phát triển quanh năm.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-container" id="question-1">
+            <div class="question-box">
+                <div class="question-title">Câu 2. Vùng nào sau đây có diện tích rừng trồng mới nhiều nhất?</div>
+                <div class="options">
+                    <div class="option" onclick="selectAnswer(1, 0)">A. Trung du và miền núi Phía Bắc</div>
+                    <div class="option" onclick="selectAnswer(1, 1)">B. Đồng bằng sông Cửu Long</div>
+                    <div class="option" onclick="selectAnswer(1, 2)">C. Đông Nam Bộ</div>
+                    <div class="option" onclick="selectAnswer(1, 3)">D. Đồng Bằng Sông Hồng</div>
+                </div>
+                <div class="explanation" id="explanation-1">
+                    <strong>✅ Giải thích:</strong> Trung du và miền núi phía Bắc là vùng có diện tích rừng trồng mới nhiều nhất (hơn 1,7 triệu ha năm 2024), nhờ quỹ đất rộng, nhiều chương trình phủ xanh đất trống đồi núi trọc và phát triển rừng sản xuất (keo, quế, hồi...).
+                </div>
+            </div>
+        </div>
+
+        <div class="question-container" id="question-2">
+            <div class="question-box">
+                <div class="question-title">Câu 3. Vì sao khoa học – công nghệ có vai trò quan trọng trong phát triển lâm nghiệp hiện nay?</div>
+                <div class="options">
+                    <div class="option" onclick="selectAnswer(2, 0)">A. Giúp khai thác nhanh hơn để tăng sản lượng gỗ</div>
+                    <div class="option" onclick="selectAnswer(2, 1)">B. Giúp thâm canh rừng, quản lí rừng bền vững và nâng cao chất lượng rừng</div>
+                    <div class="option" onclick="selectAnswer(2, 2)">C. Giúp mở rộng diện tích rừng tự nhiên</div>
+                    <div class="option" onclick="selectAnswer(2, 3)">D. Giúp giảm nhu cầu sử dụng gỗ trong sản xuất</div>
+                </div>
+                <div class="explanation" id="explanation-2">
+                    <strong>✅ Giải thích:</strong> Nhờ khoa học - công nghệ các giống cây trồng mới cho năng suất, chất lượng tốt hơn; kỹ thuật trồng – chăm sóc hiện đại, ứng dụng công nghệ số (máy bay không người lái, GPS...) trong quản lí rừng, từ đó nâng cao năng suất và bảo vệ rừng bền vững.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-container" id="question-3">
+            <div class="question-box">
+                <div class="question-title">Câu 4. Biện pháp phù hợp nhất nhằm phát triển lâm nghiệp bền vững là:</div>
+                <div class="options">
+                    <div class="option" onclick="selectAnswer(3, 0)">A. Khai thác gỗ tự nhiên để tăng kinh tế địa phương</div>
+                    <div class="option" onclick="selectAnswer(3, 1)">B. Mở rộng đất rừng bằng cách phá rừng làm nương rẫy</div>
+                    <div class="option" onclick="selectAnswer(3, 2)">C. Kết hợp trồng rừng, khoanh nuôi và bảo vệ rừng</div>
+                    <div class="option" onclick="selectAnswer(3, 3)">D. Tăng xuất khẩu gỗ thô chưa qua chế biến</div>
+                </div>
+                <div class="explanation" id="explanation-3">
+                    <strong>✅ Giải thích:</strong> Đây là biện pháp phù hợp nhất để phát triển lâm nghiệp bền vững vì vừa tăng diện tích rừng, vừa khôi phục rừng tự nhiên, đồng thời bảo vệ rừng hiện có khỏi suy thoái.
+                </div>
+            </div>
+        </div>
+
+        <div class="completion-message" id="completionMessage">
+            <div class="final-score" id="finalScore"></div>
+            <div class="message" id="resultMessage"></div>
+            <button class="restart-btn" onclick="restartQuiz()">🔄 Làm Lại Bài Trắc Nghiệm</button>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="prevQuestion()" disabled>⬅ Câu Trước</button>
+            <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">Câu Tiếp ➡</button>
+        </div>
+    </div>
+
+    <div class="tree-animation" id="treeAnim">🌳</div>
+
     <script>
-        // Dữ liệu câu hỏi
         const questions = [
             {
-                question: "Yếu tố tự nhiên quan trọng nhất giúp nước ta có điều kiện thuận lợi phát triển lâm nghiệp là:",
-                options: [
-                    "Địa hình bằng phẳng thuận lợi trồng rừng",
-                    "Khí hậu nhiệt đới ẩm mưa nhiều, nền nhiệt cao.",
-                    "Đất phù sa màu mỡ",
-                    "Mạng lưới sông ngòi dày đặc"
-                ],
-                correctAnswer: 1,
+                question: "Câu 1. Yếu tố tự nhiên quan trọng nhất giúp nước ta có điều kiện thuận lợi phát triển lâm nghiệp là:",
+                options: ["A. Địa hình bằng phẳng thuận lợi trồng rừng", "B. Khí hậu nhiệt đới ẩm mưa nhiều, nền nhiệt cao.", "C. Đất phù sa màu mỡ", "D. Mạng lưới sông ngòi dày đặc"],
+                correct: 1,
                 explanation: "Khí hậu nhiệt đới ẩm gió mùa với nhiệt độ cao, lượng mưa lớn, độ ẩm dồi dào tạo điều kiện thuận lợi nhất cho sinh trưởng của cây rừng, giúp rừng phát triển quanh năm."
             },
             {
-                question: "Vùng nào sau đây có diện tích rừng trồng mới nhiều nhất?",
-                options: [
-                    "Trung du và miền núi Phía Bắc",
-                    "Đồng bằng sông Cửu Long",
-                    "Đông Nam Bộ",
-                    "Đồng Bằng Sông Hồng"
-                ],
-                correctAnswer: 0,
+                question: "Câu 2. Vùng nào sau đây có diện tích rừng trồng mới nhiều nhất?",
+                options: ["A. Trung du và miền núi Phía Bắc", "B. Đồng bằng sông Cửu Long", "C. Đông Nam Bộ", "D. Đồng Bằng Sông Hồng"],
+                correct: 0,
                 explanation: "Trung du và miền núi phía Bắc là vùng có diện tích rừng trồng mới nhiều nhất (hơn 1,7 triệu ha năm 2024), nhờ quỹ đất rộng, nhiều chương trình phủ xanh đất trống đồi núi trọc và phát triển rừng sản xuất (keo, quế, hồi...)."
             },
             {
-                question: "Vì sao khoa học – công nghệ có vai trò quan trọng trong phát triển lâm nghiệp hiện nay?",
-                options: [
-                    "Giúp khai thác nhanh hơn để tăng sản lượng gỗ",
-                    "Giúp thâm canh rừng, quản lí rừng bền vững và nâng cao chất lượng rừng",
-                    "Giúp mở rộng diện tích rừng tự nhiên",
-                    "Giúp giảm nhu cầu sử dụng gỗ trong sản xuất"
-                ],
-                correctAnswer: 1,
+                question: "Câu 3. Vì sao khoa học – công nghệ có vai trò quan trọng trong phát triển lâm nghiệp hiện nay?",
+                options: ["A. Giúp khai thác nhanh hơn để tăng sản lượng gỗ", "B. Giúp thâm canh rừng, quản lí rừng bền vững và nâng cao chất lượng rừng", "C. Giúp mở rộng diện tích rừng tự nhiên", "D. Giúp giảm nhu cầu sử dụng gỗ trong sản xuất"],
+                correct: 1,
                 explanation: "Nhờ khoa học - công nghệ các giống cây trồng mới cho năng suất, chất lượng tốt hơn; kỹ thuật trồng – chăm sóc hiện đại, ứng dụng công nghệ số (máy bay không người lái, GPS...) trong quản lí rừng, từ đó nâng cao năng suất và bảo vệ rừng bền vững."
             },
             {
-                question: "Biện pháp phù hợp nhất nhằm phát triển lâm nghiệp bền vững là:",
-                options: [
-                    "Khai thác gỗ tự nhiên để tăng kinh tế địa phương",
-                    "Mở rộng đất rừng bằng cách phá rừng làm nương rẫy",
-                    "Kết hợp trồng rừng, khoanh nuôi và bảo vệ rừng",
-                    "Tăng xuất khẩu gỗ thô chưa qua chế biến"
-                ],
-                correctAnswer: 2,
+                question: "Câu 4. Biện pháp phù hợp nhất nhằm phát triển lâm nghiệp bền vững là:",
+                options: ["A. Khai thác gỗ tự nhiên để tăng kinh tế địa phương", "B. Mở rộng đất rừng bằng cách phá rừng làm nương rẫy", "C. Kết hợp trồng rừng, khoanh nuôi và bảo vệ rừng", "D. Tăng xuất khẩu gỗ thô chưa qua chế biến"],
+                correct: 2,
                 explanation: "Đây là biện pháp phù hợp nhất để phát triển lâm nghiệp bền vững vì vừa tăng diện tích rừng, vừa khôi phục rừng tự nhiên, đồng thời bảo vệ rừng hiện có khỏi suy thoái."
             }
         ];
 
-        // Biến toàn cục
-        let currentQuestionIndex = 0;
+        let currentQuestion = 0;
         let userAnswers = new Array(questions.length).fill(null);
         let score = 0;
-        let quizCompleted = false;
-        let questionAnswered = false;
+        let timer;
+        let timeLeft = 20;
+        let isQuizActive = false;
+        let isTimerPaused = false;
 
-        // DOM Elements
-        const gameContent = document.getElementById('game-content');
-        const resultContainer = document.getElementById('result-container');
-        const questionNumberElement = document.getElementById('question-number');
-        const questionTextElement = document.getElementById('question-text');
-        const optionsContainer = document.getElementById('options-container');
-        const prevButton = document.getElementById('prev-btn');
-        const nextButton = document.getElementById('next-btn');
-        const submitButton = document.getElementById('submit-btn');
-        const scoreElement = document.getElementById('score');
-        const currentQuestionElement = document.getElementById('current-question');
-        const finalScoreElement = document.getElementById('final-score');
-        const resultMessageElement = document.getElementById('result-message');
-        const restartButton = document.getElementById('restart-btn');
-        const progressBar = document.getElementById('progress');
-        const feedbackElement = document.getElementById('feedback');
-        const sparkleEffect = document.getElementById('sparkle-effect');
-        const correctSound = document.getElementById('correct-sound');
-        const incorrectSound = document.getElementById('incorrect-sound');
+        // Tạo AudioContext và master gain duy nhất
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const masterGain = audioContext.createGain();
+        masterGain.gain.value = 15;
+        masterGain.connect(audioContext.destination);
 
-        // Khởi tạo game
-        function initGame() {
-            currentQuestionIndex = 0;
-            userAnswers.fill(null);
-            score = 0;
-            quizCompleted = false;
-            questionAnswered = false;
-            
-            gameContent.style.display = 'block';
-            resultContainer.style.display = 'none';
-            
-            updateScore();
-            showQuestion();
-            updateProgressBar();
+        // Biến toàn cục để chỉnh âm lượng chung
+        let masterVolume = 0.05;
+
+        // Hàm tạo và chơi một nốt
+        function playNote(freq, type = 'sine', duration = 0.3, volume = 1) {
+            const osc = audioContext.createOscillator(); 
+            const gain = audioContext.createGain();
+
+            osc.frequency.value = freq; 
+            osc.type = type;
+
+            osc.connect(gain);
+            gain.connect(masterGain);
+
+            // Nhân volume riêng với masterVolume
+            gain.gain.setValueAtTime(volume * masterVolume, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+            osc.start();
+            osc.stop(audioContext.currentTime + duration);
         }
 
-        // Hiển thị câu hỏi
-        function showQuestion() {
-            const question = questions[currentQuestionIndex];
+        // Âm thành công
+        function playCorrectSound() {
+            playNote(523.25, 'sine', 0.3, 1);
+            setTimeout(() => playNote(659.25, 'sine', 0.3, 1), 150);
+            setTimeout(() => playNote(783.99, 'sine', 0.5, 1), 300);
+        }
+
+        // Âm thất bại
+        function playWrongSound() {
+            if (isQuizActive) {
+                playNote(400, 'square', 0.15, 1);
+                setTimeout(() => playNote(300, 'square', 0.15, 1), 150);
+                setTimeout(() => playNote(250, 'square', 0.20, 1), 300);
+            }
+        }
+
+        // Âm tích tắc
+        function playTickSound() {
+            if (isQuizActive && !isTimerPaused) {
+                playNote(800, 'sine', 0.05, 1);
+            }
+        }
+
+        function showTree() {
+            const tree = document.getElementById('treeAnim');
+            tree.style.display = 'block';
+            setTimeout(() => {
+                tree.style.display = 'none';
+            }, 1000);
+        }
+
+        // Hàm bật/tắt timer
+        function toggleTimer() {
+            isTimerPaused = !isTimerPaused;
+            const pauseBtn = document.getElementById('pauseBtn');
             
-            questionNumberElement.textContent = currentQuestionIndex + 1;
-            questionTextElement.textContent = question.question;
-            currentQuestionElement.textContent = currentQuestionIndex + 1;
+            if (isTimerPaused) {
+                clearInterval(timer);
+                pauseBtn.textContent = '▶️ Tiếp tục';
+                pauseBtn.classList.add('paused');
+            } else {
+                startTimer();
+                pauseBtn.textContent = '⏸️ Tạm dừng';
+                pauseBtn.classList.remove('paused');
+            }
+        }
+
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
             
-            // Tạo các lựa chọn
-            optionsContainer.innerHTML = '';
-            questionAnswered = userAnswers[currentQuestionIndex] !== null;
+            // Hiển thị đồng hồ đếm ngược
+            document.getElementById('timerBox').style.display = 'flex';
             
-            question.options.forEach((option, index) => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option';
-                
-                // Kiểm tra trạng thái của lựa chọn
-                if (userAnswers[currentQuestionIndex] === index) {
-                    optionElement.classList.add('selected');
+            // Đặt trạng thái bài trắc nghiệm đang hoạt động
+            isQuizActive = true;
+            isTimerPaused = false;
+            
+            // Reset nút pause
+            document.getElementById('pauseBtn').textContent = '⏸️ Tạm dừng';
+            document.getElementById('pauseBtn').classList.remove('paused');
+            
+            startTimer();
+            showQuestion(currentQuestion);
+        }
+
+        function startTimer() {
+            updateTimerDisplay();
+            
+            clearInterval(timer);
+            timer = setInterval(() => {
+                if (!isTimerPaused) {
+                    timeLeft--;
+                    updateTimerDisplay();
                     
-                    // Hiển thị đúng/sai nếu đã chọn
-                    if (index === question.correctAnswer) {
-                        optionElement.classList.add('correct');
+                    // Phát âm thanh tích tắc mỗi giây
+                    if (timeLeft > 0 && timeLeft <= 10) {
+                        playTickSound();
+                    }
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        // Tự động chọn sai nếu hết thời gian
+                        if (userAnswers[currentQuestion] === null) {
+                            selectAnswer(currentQuestion, -1); // -1 để đánh dấu là hết giờ
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            timeLeft = 20;
+            isTimerPaused = false;
+            document.getElementById('pauseBtn').textContent = '⏸️ Tạm dừng';
+            document.getElementById('pauseBtn').classList.remove('paused');
+            clearInterval(timer);
+            startTimer();
+        }
+
+        function updateTimerDisplay() {
+            document.getElementById('timer').textContent = timeLeft;
+            
+            // Thay đổi màu sắc khi thời gian sắp hết
+            if (timeLeft <= 5) {
+                document.getElementById('timer').style.color = '#ff6b6b';
+            } else if (timeLeft <= 10) {
+                document.getElementById('timer').style.color = '#ffd166';
+            } else {
+                document.getElementById('timer').style.color = '#d8f3dc';
+            }
+        }
+
+        function selectAnswer(qIndex, oIndex) {
+            if (userAnswers[qIndex] !== null) return;
+
+            userAnswers[qIndex] = oIndex;
+            const isCorrect = oIndex === questions[qIndex].correct;
+
+            // Đánh dấu đáp án
+            const options = document.querySelectorAll(`#question-${qIndex} .option`);
+            options.forEach((option, index) => {
+                option.classList.remove('selected', 'correct', 'wrong');
+                if (index === oIndex) {
+                    option.classList.add('selected');
+                    if (isCorrect) {
+                        option.classList.add('correct');
                     } else {
-                        optionElement.classList.add('incorrect');
+                        option.classList.add('wrong');
                     }
                 }
-                
-                // Vô hiệu hóa lựa chọn nếu đã trả lời
-                if (questionAnswered) {
-                    optionElement.classList.add('disabled');
-                    
-                    // Hiển thị đáp án đúng
-                    if (index === question.correctAnswer && userAnswers[currentQuestionIndex] !== index) {
-                        optionElement.classList.add('correct');
-                    }
+                if (index === questions[qIndex].correct) {
+                    option.classList.add('correct');
                 }
-                
-                optionElement.textContent = option;
-                
-                // Chỉ cho phép chọn nếu chưa trả lời
-                if (!questionAnswered) {
-                    optionElement.addEventListener('click', () => selectOption(index));
+            });
+
+            // Hiện giải thích
+            document.getElementById(`explanation-${qIndex}`).classList.add('show');
+
+            if (isCorrect) {
+                score++;
+                playCorrectSound();
+                showTree();
+            } else {
+                // Chỉ phát âm thanh thua cuộc khi đang làm bài trắc nghiệm
+                if (isQuizActive) {
+                    playWrongSound();
                 }
-                
-                optionsContainer.appendChild(optionElement);
+            }
+
+            // Dừng đồng hồ khi đã chọn đáp án
+            clearInterval(timer);
+            isTimerPaused = false;
+
+            // Cập nhật điểm và progress
+            updateScore();
+            updateProgress();
+            updateNavigation();
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+        }
+
+        function updateProgress() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            const percent = (answered / questions.length) * 100;
+            document.getElementById('progressBar').style.width = percent + '%';
+        }
+
+        function updateNavigation() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('nextBtn').textContent = 'Kết Thúc';
+            } else {
+                document.getElementById('nextBtn').textContent = 'Câu Tiếp ➡';
+            }
+        }
+
+        function updateQuestionCounter() {
+            document.getElementById('questionCounter').textContent = `Câu ${currentQuestion + 1}/${questions.length}`;
+        }
+
+        function showQuestion(index) {
+            // Ẩn tất cả câu hỏi
+            document.querySelectorAll('.question-container').forEach(container => {
+                container.classList.remove('active');
             });
             
-            // Hiển thị phản hồi nếu đã trả lời
-            if (questionAnswered) {
-                const isCorrect = userAnswers[currentQuestionIndex] === question.correctAnswer;
-                
-                if (isCorrect) {
-                    feedbackElement.textContent = "✅ Chính xác! " + question.explanation;
-                    feedbackElement.className = 'feedback correct';
-                } else {
-                    feedbackElement.textContent = "❌ Chưa đúng! " + question.explanation;
-                    feedbackElement.className = 'feedback incorrect';
-                }
-                feedbackElement.style.display = 'block';
-            } else {
-                feedbackElement.style.display = 'none';
-            }
+            // Hiện câu hỏi hiện tại
+            document.getElementById(`question-${index}`).classList.add('active');
             
-            // Ẩn/hiện nút điều hướng
-            prevButton.disabled = currentQuestionIndex === 0;
+            // Cập nhật counter
+            updateQuestionCounter();
             
-            if (currentQuestionIndex === questions.length - 1) {
-                nextButton.style.display = 'none';
-                submitButton.style.display = 'block';
-            } else {
-                nextButton.style.display = 'block';
-                submitButton.style.display = 'none';
+            // Cập nhật nút điều hướng
+            updateNavigation();
+            
+            // Reset đồng hồ nếu câu hỏi chưa được trả lời
+            if (userAnswers[currentQuestion] === null) {
+                resetTimer();
             }
         }
 
-        // Chọn một lựa chọn
-        function selectOption(optionIndex) {
-            if (quizCompleted || questionAnswered) return;
-            
-            userAnswers[currentQuestionIndex] = optionIndex;
-            questionAnswered = true;
-            
-            // Cập nhật điểm số và hiệu ứng
-            const question = questions[currentQuestionIndex];
-            if (optionIndex === question.correctAnswer) {
-                score += 1;
-                updateScore();
-                showSparkleEffect();
-                playCorrectSound();
-            } else {
-                playIncorrectSound();
-            }
-            
-            showQuestion();
-        }
-
-        // Phát âm thanh khi trả lời đúng
-        function playCorrectSound() {
-            correctSound.currentTime = 0;
-            correctSound.play().catch(e => console.log("Không thể phát âm thanh: ", e));
-        }
-
-        // Phát âm thanh khi trả lời sai
-        function playIncorrectSound() {
-            incorrectSound.currentTime = 0;
-            incorrectSound.play().catch(e => console.log("Không thể phát âm thanh: ", e));
-        }
-
-        // Hiệu ứng lấp lánh khi trả lời đúng
-        function showSparkleEffect() {
-            sparkleEffect.style.display = 'flex';
-            
-            setTimeout(() => {
-                sparkleEffect.style.display = 'none';
-            }, 3000);
-        }
-
-        // Cập nhật điểm số
-        function updateScore() {
-            scoreElement.textContent = score;
-        }
-
-        // Cập nhật thanh tiến trình
-        function updateProgressBar() {
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
-
-        // Chuyển đến câu hỏi tiếp theo
         function nextQuestion() {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                questionAnswered = userAnswers[currentQuestionIndex] !== null;
-                showQuestion();
-                updateProgressBar();
-            }
-        }
-
-        // Quay lại câu hỏi trước
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                questionAnswered = userAnswers[currentQuestionIndex] !== null;
-                showQuestion();
-                updateProgressBar();
-            }
-        }
-
-        // Nộp bài và hiển thị kết quả
-        function submitQuiz() {
-            quizCompleted = true;
-            gameContent.style.display = 'none';
-            resultContainer.style.display = 'flex';
-            
-            finalScoreElement.textContent = `${score}/${questions.length}`;
-            
-            // Hiển thị thông báo kết quả
-            if (score === questions.length) {
-                resultMessageElement.textContent = "🎉 Xuất sắc! Bạn thực sự hiểu biết về lâm nghiệp Việt Nam! 🌳✨";
-            } else if (score >= questions.length * 0.7) {
-                resultMessageElement.textContent = "👍 Rất tốt! Kiến thức của bạn về lâm nghiệp khá vững! 🌿";
-            } else if (score >= questions.length * 0.5) {
-                resultMessageElement.textContent = "👌 Khá tốt! Bạn có hiểu biết cơ bản về lâm nghiệp Việt Nam!";
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
             } else {
-                resultMessageElement.textContent = "📚 Hãy tiếp tục tìm hiểu thêm về lâm nghiệp Việt Nam nhé!";
+                showResults();
             }
         }
 
-        // Gán sự kiện cho các nút
-        nextButton.addEventListener('click', nextQuestion);
-        prevButton.addEventListener('click', prevQuestion);
-        submitButton.addEventListener('click', submitQuiz);
-        restartButton.addEventListener('click', initGame);
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
 
-        // Khởi động game
-        initGame();
+        function showResults() {
+            // Đặt trạng thái bài trắc nghiệm không còn hoạt động
+            isQuizActive = false;
+            isTimerPaused = false;
+            
+            // Ẩn tất cả câu hỏi
+            document.querySelectorAll('.question-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            
+            // Ẩn đồng hồ
+            document.getElementById('timerBox').style.display = 'none';
+            document.querySelector('.progress-bar').style.display = 'none';
+            document.getElementById('scoreBox').style.display = 'none';
+            document.getElementById('questionCounter').style.display = 'none';
+            
+            // Hiện thông báo hoàn thành
+            document.getElementById('completionMessage').classList.add('show');
+            
+            // Ẩn thanh điều hướng
+            document.querySelector('.navigation').style.display = 'none';
+            
+            // Hiển thị kết quả
+            const percent = (score / questions.length * 100).toFixed(1);
+            document.getElementById('finalScore').textContent = `Điểm của bạn: ${score}/${questions.length} (${percent}%)`;
+            
+            let message = '';
+            if (percent >= 100) {
+                message = '🎉 Xuất sắc! Bạn thực sự hiểu biết về lâm nghiệp Việt Nam! 🌳✨';
+            } else if (percent >= 75) {
+                message = '👍 Rất tốt! Kiến thức của bạn về lâm nghiệp khá vững! 🌿';
+            } else if (percent >= 50) {
+                message = '👌 Khá ổn! Bạn có hiểu biết cơ bản về lâm nghiệp Việt Nam!';
+            } else {
+                message = '📚 Hãy tiếp tục tìm hiểu thêm về lâm nghiệp Việt Nam nhé!';
+            }
+            
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            score = 0;
+            
+            // Đặt lại giao diện
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'wrong');
+            });
+            
+            document.querySelectorAll('.explanation').forEach(exp => {
+                exp.classList.remove('show');
+            });
+            
+            document.getElementById('completionMessage').classList.remove('show');
+            document.querySelector('.navigation').style.display = 'flex';
+            
+            // Hiển thị lại các phần tử đã ẩn
+            document.getElementById('timerBox').style.display = 'flex';
+            document.querySelector('.progress-bar').style.display = 'block';
+            document.getElementById('scoreBox').style.display = 'block';
+            document.getElementById('questionCounter').style.display = 'block';
+            
+            updateScore();
+            updateProgress();
+            showQuestion(currentQuestion);
+            
+            // Quay lại trang mở đầu
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('quizContainer').style.display = 'none';
+            
+            // Đặt lại trạng thái bài trắc nghiệm
+            isQuizActive = false;
+            isTimerPaused = false;
+        }
+ 
+        // Khởi tạo
+        updateScore();
     </script>
 </body>
 </html>
