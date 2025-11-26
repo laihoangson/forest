@@ -104,6 +104,47 @@
             box-shadow: 0 6px 20px rgba(45, 106, 79, 0.5);
         }
 
+        /* Nút nhạc trong màn hình bắt đầu */
+        .start-music-btn {
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+            color: white;
+            border: none;
+            padding: 14px 45px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid #1b4332;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+        }
+
+        .start-music-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(45, 106, 79, 0.5);
+        }
+
+        /* Nút nhạc cố định (cho các màn hình khác) */
+        .fixed-music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 15px;
+            background-color: #2d6a4f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border: 2px solid #1b4332;
+        }
+
+        .fixed-music-btn:hover {
+            background-color: #40916c;
+        }
+
         .header {
             background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
             color: #d8f3dc;
@@ -285,8 +326,8 @@
             font-weight: bold;
         }
 
-        /* Nút pause */
-        .pause-btn {
+        /* Nút timer control */
+        .timer-control-btn {
             background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
             color: white;
             border: none;
@@ -299,12 +340,12 @@
             font-weight: bold;
         }
 
-        .pause-btn:hover {
+        .timer-control-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 3px 10px rgba(255, 165, 0, 0.4);
         }
 
-        .pause-btn.paused {
+        .timer-control-btn.started {
             background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
         }
 
@@ -438,9 +479,11 @@
     <div class="container" id="startScreen">
         <div class="start-screen">
             <h1 class="start-title">🌳 HÀNH TRÌNH XANH 🌳</h1>
-            <p class="start-subtitle">Trắc nghiệm kiến thức về rừng và lâm nghiệp Việt Nam</p>
+            <p class="start-subtitle">Trắc nghiệm kiến thức về lâm nghiệp Việt Nam</p>
             <p class="start-description">Khám phá kiến thức về rừng và lâm nghiệp Việt Nam qua bài trắc nghiệm thú vị này. Hãy cùng tìm hiểu và bảo vệ màu xanh của Trái Đất!</p>
-            <button class="start-btn" onclick="startQuiz()">Bắt Đầu Hành Trình</button>
+            <button class="start-btn" onclick="startQuiz()">Bắt Đầu Kiểm Tra</button>
+            <!-- Nút nhạc trong màn hình bắt đầu -->
+            <button class="start-music-btn" id="startMusicBtn">🔈 Bật nhạc nền</button>
         </div>
     </div>
 
@@ -455,8 +498,8 @@
             <span>⏱️ Thời gian còn lại:</span>
             <div class="timer" id="timer">20</div>
             <span>giây</span>
-            <!-- Nút pause -->
-            <button class="pause-btn" id="pauseBtn" onclick="toggleTimer()">⏸️ Tạm dừng</button>
+            <!-- Nút điều khiển timer -->
+            <button class="timer-control-btn" id="timerControlBtn" onclick="toggleTimer()">▶️ Bắt đầu</button>
         </div>
 
         <div class="progress-bar">
@@ -543,6 +586,9 @@
 
     <div class="tree-animation" id="treeAnim">🌳</div>
 
+    <!-- Nút nhạc cố định cho các màn hình khác -->
+    <button class="fixed-music-btn" id="fixedMusicBtn" style="display: none;">🔈 Bật nhạc</button>
+
     <script>
         const questions = [
             {
@@ -576,8 +622,9 @@
         let score = 0;
         let timer;
         let timeLeft = 20;
+        let backgroundAudio = null;
         let isQuizActive = false;
-        let isTimerPaused = false;
+        let isTimerRunning = false;
 
         // Tạo AudioContext và master gain duy nhất
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -625,7 +672,7 @@
 
         // Âm tích tắc
         function playTickSound() {
-            if (isQuizActive && !isTimerPaused) {
+            if (isQuizActive && isTimerRunning) {
                 playNote(800, 'sine', 0.05, 1);
             }
         }
@@ -638,38 +685,91 @@
             }, 1000);
         }
 
-        // Hàm bật/tắt timer
-        function toggleTimer() {
-            isTimerPaused = !isTimerPaused;
-            const pauseBtn = document.getElementById('pauseBtn');
+        // Tự động tải nhạc nền
+        function loadBackgroundMusic() {
+            backgroundAudio = new Audio('forest.mp3');
+            backgroundAudio.loop = true;
+            backgroundAudio.volume = 0.5;
+        }
+
+        // Hàm bật/tắt nhạc
+        function toggleMusic() {
+            if (!backgroundAudio) return;
             
-            if (isTimerPaused) {
-                clearInterval(timer);
-                pauseBtn.textContent = '▶️ Tiếp tục';
-                pauseBtn.classList.add('paused');
+            if (backgroundAudio.paused) {
+                backgroundAudio.play().catch(error => {
+                    console.log('Không thể phát nhạc:', error);
+                });
+                // Cập nhật cả hai nút
+                document.getElementById('startMusicBtn').textContent = '🔊 Tắt nhạc nền';
+                document.getElementById('fixedMusicBtn').textContent = '🔊 Tắt nhạc';
             } else {
-                startTimer();
-                pauseBtn.textContent = '⏸️ Tạm dừng';
-                pauseBtn.classList.remove('paused');
+                backgroundAudio.pause();
+                // Cập nhật cả hai nút
+                document.getElementById('startMusicBtn').textContent = '🔈 Bật nhạc nền';
+                document.getElementById('fixedMusicBtn').textContent = '🔈 Bật nhạc';
             }
         }
+
+        // Hàm bật/tắt timer
+        function toggleTimer() {
+            const timerControlBtn = document.getElementById('timerControlBtn');
+            
+            if (!isTimerRunning) {
+                // Bắt đầu timer
+                isTimerRunning = true;
+                timerControlBtn.textContent = '⏸️ Tạm dừng';
+                timerControlBtn.classList.add('started');
+                startTimer();
+            } else {
+                // Tạm dừng timer
+                isTimerRunning = false;
+                timerControlBtn.textContent = '▶️ Tiếp tục';
+                timerControlBtn.classList.remove('started');
+                clearInterval(timer);
+            }
+        }
+
+        // Gọi hàm tải nhạc nền khi trang được tải
+        window.addEventListener('load', function() {
+            loadBackgroundMusic();
+            
+            // Thêm sự kiện cho nút nhạc trong màn hình bắt đầu
+            document.getElementById('startMusicBtn').addEventListener('click', toggleMusic);
+            
+            // Thêm sự kiện cho nút nhạc cố định
+            document.getElementById('fixedMusicBtn').addEventListener('click', toggleMusic);
+        });
 
         function startQuiz() {
             document.getElementById('startScreen').style.display = 'none';
             document.getElementById('quizContainer').style.display = 'block';
             
+            // Hiển thị nút nhạc cố định
+            document.getElementById('fixedMusicBtn').style.display = 'block';
+            
+            // Dừng nhạc nền khi bắt đầu làm bài
+            if (backgroundAudio) {
+                backgroundAudio.pause();
+                // Cập nhật cả hai nút
+                document.getElementById('startMusicBtn').textContent = '🔈 Bật nhạc nền';
+                document.getElementById('fixedMusicBtn').textContent = '🔈 Bật nhạc';
+            }
+
             // Hiển thị đồng hồ đếm ngược
             document.getElementById('timerBox').style.display = 'flex';
             
             // Đặt trạng thái bài trắc nghiệm đang hoạt động
             isQuizActive = true;
-            isTimerPaused = false;
+            isTimerRunning = false;
             
-            // Reset nút pause
-            document.getElementById('pauseBtn').textContent = '⏸️ Tạm dừng';
-            document.getElementById('pauseBtn').classList.remove('paused');
+            // Reset nút timer control
+            document.getElementById('timerControlBtn').textContent = '▶️ Bắt đầu';
+            document.getElementById('timerControlBtn').classList.remove('started');
             
-            startTimer();
+            // Khởi tạo timer nhưng chưa chạy
+            updateTimerDisplay();
+            
             showQuestion(currentQuestion);
         }
 
@@ -678,7 +778,7 @@
             
             clearInterval(timer);
             timer = setInterval(() => {
-                if (!isTimerPaused) {
+                if (isTimerRunning) {
                     timeLeft--;
                     updateTimerDisplay();
                     
@@ -689,6 +789,7 @@
                     
                     if (timeLeft <= 0) {
                         clearInterval(timer);
+                        isTimerRunning = false;
                         // Tự động chọn sai nếu hết thời gian
                         if (userAnswers[currentQuestion] === null) {
                             selectAnswer(currentQuestion, -1); // -1 để đánh dấu là hết giờ
@@ -700,11 +801,11 @@
 
         function resetTimer() {
             timeLeft = 20;
-            isTimerPaused = false;
-            document.getElementById('pauseBtn').textContent = '⏸️ Tạm dừng';
-            document.getElementById('pauseBtn').classList.remove('paused');
+            isTimerRunning = false;
+            document.getElementById('timerControlBtn').textContent = '▶️ Bắt đầu';
+            document.getElementById('timerControlBtn').classList.remove('started');
             clearInterval(timer);
-            startTimer();
+            updateTimerDisplay();
         }
 
         function updateTimerDisplay() {
@@ -759,7 +860,9 @@
 
             // Dừng đồng hồ khi đã chọn đáp án
             clearInterval(timer);
-            isTimerPaused = false;
+            isTimerRunning = false;
+            document.getElementById('timerControlBtn').textContent = '▶️ Bắt đầu';
+            document.getElementById('timerControlBtn').classList.remove('started');
 
             // Cập nhật điểm và progress
             updateScore();
@@ -831,7 +934,7 @@
         function showResults() {
             // Đặt trạng thái bài trắc nghiệm không còn hoạt động
             isQuizActive = false;
-            isTimerPaused = false;
+            isTimerRunning = false;
             
             // Ẩn tất cả câu hỏi
             document.querySelectorAll('.question-container').forEach(container => {
@@ -891,6 +994,9 @@
             document.getElementById('scoreBox').style.display = 'block';
             document.getElementById('questionCounter').style.display = 'block';
             
+            // Ẩn nút nhạc cố định
+            document.getElementById('fixedMusicBtn').style.display = 'none';
+            
             updateScore();
             updateProgress();
             showQuestion(currentQuestion);
@@ -899,9 +1005,14 @@
             document.getElementById('startScreen').style.display = 'block';
             document.getElementById('quizContainer').style.display = 'none';
             
+            // Phát lại nhạc nền
+            if (backgroundAudio) {
+                backgroundAudio.play();
+            }
+            
             // Đặt lại trạng thái bài trắc nghiệm
             isQuizActive = false;
-            isTimerPaused = false;
+            isTimerRunning = false;
         }
  
         // Khởi tạo
